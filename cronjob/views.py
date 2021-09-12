@@ -14,7 +14,7 @@ class JobEndpoint(View):
 
     def _get_job_group(self, kwargs):
         try:
-            job_group = JobGroup.objects.get(name=kwargs['job_group'])
+            job_group = JobGroup.objects.get(name=kwargs['job_group'], status='Active')
         except JobGroup.DoesNotExist:
             raise Http404
 
@@ -39,6 +39,7 @@ class JobEndpoint(View):
         job_list = self.job_group.jobs.all()
 
         for job in job_list:
-            self._run_job(job)
+            if job.is_active():
+                self._run_job(job)
 
         return JsonResponse({'errors': []})

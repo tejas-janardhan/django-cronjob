@@ -23,9 +23,14 @@ class FunctionValidator:
         inverse_match is True) a match for the regular expression.
         """
 
-        module_path, _ = parse_function_path_string(value)
+        module_path, function_name = parse_function_path_string(value)
 
         try:
-            importlib.import_module(module_path)
+            module = importlib.import_module(module_path)
         except ModuleNotFoundError:
             raise ValidationError(self.message, code=self.code, params={'value': value})
+        else:
+            try:
+                getattr(module, function_name)
+            except AttributeError:
+                raise ValidationError(self.message, code=self.code, params={'value': value})

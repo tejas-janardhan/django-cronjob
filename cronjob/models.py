@@ -18,11 +18,13 @@ class Job(models.Model):
     timeout length not used yet.
     """
     name = models.CharField(max_length=100, unique=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    status = StatusField()
+
     tags = models.JSONField(default=dict, blank=True)
     timeout_length = models.IntegerField(default=120, null=True)  # sec, none implies no timeout.
     job_path = PythonFunctionField(help_text='Module path followed by the function name. eg. '
                                              'cronjob.jobs.test_function.')
-    status = StatusField()
 
     _args = models.CharField(max_length=100,
                              default='',
@@ -45,6 +47,15 @@ class Job(models.Model):
     def __str__(self):
         return f'{self.name}'
 
+    def is_active(self):
+        return self.status == 'Active'
+
+
+class JobGroupManager(models.Manager):
+
+    def get_active_groups(self):
+        return self.get_queryset().filter(status='Active')
+
 
 class JobGroup(models.Model):
     """
@@ -60,6 +71,7 @@ class JobGroup(models.Model):
     )
 
     name = models.CharField(max_length=100, unique=True)
+    date_created = models.DateTimeField(auto_now_add=True)
     status = StatusField()
 
     token = models.UUIDField(default=uuid.uuid4)
@@ -74,7 +86,8 @@ class JobGroup(models.Model):
         if self.name is None:
             return ''
 
-        cron_item = CronItem(command=f'curl -X POST {settings.DOMAIN_NAME}{reverse("job_group", kwargs={"job_group":self.name, "token":self.token})}')
+        cron_item = CronItem(
+            command=f'curl -X POST {settings.DOMAIN_NAME}{reverse("job_group", kwargs={"job_group": self.name, "token": self.token})}')
 
         if self.duration_unit == 'Minute':
             cron_item.minute.every(self.time_duration)

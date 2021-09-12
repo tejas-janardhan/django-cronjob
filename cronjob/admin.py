@@ -13,6 +13,8 @@ class JobGroupAdmin(admin.ModelAdmin):
     def cron_script(self, obj):
         return obj.get_cron_script()
 
+    cron_script.help_text = 'Paste script into cron tab'
+
 
 class JobHistoryAdmin(admin.ModelAdmin):
     model = JobHistory

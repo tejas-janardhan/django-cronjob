@@ -1,0 +1,50 @@
+Metadata-Version: 1.2
+Name: django-cronjob
+Version: 0.1
+Summary: A Django app to schedule jobs with crontab.
+Home-page: UNKNOWN
+Author: Tejas Janardhan
+Author-email: tejasj1718@gmail.com
+License: BSD-3-Clause
+Description: =====
+        CronJob
+        =====
+        
+        CronJob is a Django app to used to create quick endpoints that can run jobs periodically called from the crontab.
+        Lets you group jobs together and autogenerates the cron line needed to execute the jobs. Multiple job groups run asynchronously.
+        
+        Quick start
+        -----------
+        
+        1. Add "cronjob" to your INSTALLED_APPS setting like this::
+        
+            INSTALLED_APPS = [
+                ...
+                'cronjob',
+            ]
+        
+        2. Include the cronjob URLconf in your project urls.py like this::
+        
+            path('cronjob/', include('cronjob.urls')),
+        
+        3. Run ``python manage.py migrate`` to create the cronjob models.
+        
+        4. Start the development server and visit http://127.0.0.1:8000/admin/
+           to create a jobs and job group (you'll need the Admin app enabled).
+        
+        5. Test out the endpoint via the cmd prompt and check Job Histories to check if the jobs ran successfully.
+Platform: UNKNOWN
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django
+Classifier: Framework :: Django :: 3.2
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Topic :: Internet :: WWW/HTTP
+Requires-Python: >=3.6

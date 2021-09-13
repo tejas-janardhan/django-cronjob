@@ -38,11 +38,30 @@ class Job(models.Model):
         module = importlib.import_module(module_path)
         return getattr(module, function_name)
 
+    def _clean_string(self, string):
+        characters_to_remove = ["\'", '\"']
+        for ctr in characters_to_remove:
+            string = string.replace(ctr, '')
+        return string.strip()
+
     @property
     def args(self):
         if self._args == '':
             return []
-        return self._args.split(',')
+        args_string_list = self._args.split(',')
+        new_args = []
+        for arg in args_string_list:
+            try:
+                arg = int(arg)
+            except ValueError:
+                try:
+                    arg = float(arg)
+                except ValueError:
+                    arg = self._clean_string(arg)
+
+            new_args.append(arg)
+
+        return new_args
 
     def __str__(self):
         return f'{self.name}'
@@ -110,6 +129,8 @@ class JobGroup(models.Model):
 
     def __str__(self):
         return f'{self.name} - {self.time_duration} - {self.duration_unit}'
+
+    objects = JobGroupManager()
 
 
 class JobHistory(models.Model):

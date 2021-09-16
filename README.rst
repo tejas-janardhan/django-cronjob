@@ -5,6 +5,11 @@ CronJob
 CronJob is a Django app to used to create quick endpoints that can run jobs periodically called from the crontab.
 Lets you group jobs together and autogenerates the cron line needed to execute the jobs. Multiple job groups run asynchronously.
 
+Installation
+------------
+Notes on using the .tar.gz file to install via pip.
+Additional installation notes...
+
 Quick start
 -----------
 

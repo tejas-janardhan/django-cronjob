@@ -29,7 +29,8 @@ class Job(models.Model):
     _args = models.CharField(max_length=100,
                              default='',
                              blank=True,
-                             help_text='Enter elements of the array seperated by a comma, e.g. arg1,arg2..argN')
+                             help_text='Enter elements of the array seperated by a comma, e.g. arg1,arg2..argN',
+                             verbose_name='args')
 
     kwargs = models.JSONField(default=dict, blank=True)
 

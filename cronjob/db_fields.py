@@ -16,6 +16,6 @@ class StatusField(models.CharField):
         kwargs.update({'choices': (
             ('Active', 'Active'),
             ('Inactive', 'Inactive')
-        ), 'max_length': 100})
+        ), 'max_length': 100, 'default': 'Active'})
 
         super().__init__(*args, **kwargs)
